@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-gym-dark: #121212;
+  --color-gym-card: #1E1E1E;
+  --color-gym-accent: #CCFF00; /* Neon Green */
+  --color-gym-blue: #00D1FF;
+  --color-gym-muted: #8E9299;
+}
+
+@layer base {
+  body {
+    @apply bg-gym-dark text-white font-sans antialiased;
+  }
+}
+
+/* Custom scrollbar for a cleaner mobile look on web */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
