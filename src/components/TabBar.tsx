@@ -1,4 +1,4 @@
-import { Home, LineChart, QrCode, ClipboardList, User } from 'lucide-react';
+import { Home, LineChart, QrCode, ClipboardList, User, Wallet as WalletIcon } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { motion } from 'motion/react';
 
@@ -10,7 +10,7 @@ interface TabBarProps {
 export function TabBar({ activeTab, onTabChange }: TabBarProps) {
   const tabs = [
     { id: 'home', icon: Home, label: 'Ana Sayfa' },
-    { id: 'program', icon: ClipboardList, label: 'Program' },
+    { id: 'wallet', icon: WalletIcon, label: 'Cüzdan' },
     { id: 'qr', icon: QrCode, label: 'Giriş', isCenter: true },
     { id: 'stats', icon: LineChart, label: 'İstatistik' },
     { id: 'profile', icon: User, label: 'Profil' },

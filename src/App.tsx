@@ -9,7 +9,9 @@ import { OccupancyCard } from './components/OccupancyCard';
 import { StatsCard } from './components/StatsCard';
 import { QuickActions } from './components/QuickActions';
 import { SchedulePreview } from './components/SchedulePreview';
-import { WeeklyActivity } from './components/WeeklyActivity';
+import { WalletScreen } from './components/WalletScreen';
+import { QRCodeScreen } from './components/QRCodeScreen';
+import { NotificationManager } from './components/NotificationManager';
 import { TabBar } from './components/TabBar';
 
 export default function App() {
@@ -24,6 +26,7 @@ export default function App() {
       </div>
 
       <div className="relative z-10">
+        <NotificationManager />
         <Header />
         
         <main>
@@ -37,8 +40,12 @@ export default function App() {
               <SchedulePreview />
             </div>
           )}
+
+          {activeTab === 'wallet' && <WalletScreen />}
           
-          {activeTab !== 'home' && (
+          {activeTab === 'qr' && <QRCodeScreen />}
+          
+          {activeTab !== 'home' && activeTab !== 'wallet' && activeTab !== 'qr' && (
             <div className="px-10 py-20 flex flex-col items-center justify-center text-center">
               <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6 border border-white/5">
                 <span className="text-4xl">🚧</span>

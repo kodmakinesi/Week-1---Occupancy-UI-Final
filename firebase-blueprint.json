@@ -1,0 +1,38 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Stores user wallet, subscription and FCM tokens.",
+      "type": "object",
+      "properties": {
+        "displayName": { "type": "string" },
+        "walletBalance": { "type": "number" },
+        "subscriptionExpiry": { "type": "string" },
+        "fcmTokens": { "type": "array" }
+      },
+      "required": ["walletBalance"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Records wallet transactions.",
+      "type": "object",
+      "properties": {
+        "amount": { "type": "number" },
+        "type": { "type": "string" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["amount", "type", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "Main user documents"
+    },
+    "users/{userId}/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "User transaction history"
+    }
+  }
+}

@@ -2,5 +2,7 @@
   "name": "FitPro Arena",
   "description": "Profesyonel fitness takip ve salon doluluk uygulaması. QR giriş, antrenman takibi ve modern arayüz.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

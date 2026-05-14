@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global helpers
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+
+    // Users Collection
+    match /users/{userId} {
+      function isValidUser(data) {
+        return data.walletBalance is number &&
+               (!('displayName' in data) || data.displayName is string) &&
+               (!('subscriptionExpiry' in data) || data.subscriptionExpiry is string) &&
+               (!('fcmTokens' in data) || data.fcmTokens is list);
+      }
+
+      allow get: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUser(incoming()) && incoming().walletBalance == 0;
+      allow update: if isOwner(userId) && isValidUser(incoming()) && (
+        // Action: Update tokens or profile
+        incoming().diff(existing()).affectedKeys().hasOnly(['fcmTokens', 'displayName']) ||
+        // Action: Wallet changes (In a real app, this might be restricted to server-side only or specific logic)
+        incoming().diff(existing()).affectedKeys().hasOnly(['walletBalance', 'subscriptionExpiry'])
+      );
+
+      // Transactions subcollection
+      match /transactions/{transactionId} {
+        function isValidTransaction(data) {
+          return data.amount is number &&
+                 data.type is string &&
+                 data.createdAt is timestamp &&
+                 data.description is string;
+        }
+
+        allow list: if isOwner(userId);
+        allow get: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidTransaction(incoming()) && incoming().createdAt == request.time;
+      }
+    }
+  }
+}
